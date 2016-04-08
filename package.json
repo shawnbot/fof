@@ -1,0 +1,39 @@
+{
+  "name": "fof",
+  "version": "1.0.0",
+  "description": "an accessor function and fat arrow helper",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "mocha",
+    "build": "browserify index.js > build/fof.js",
+    "minify": "uglifyjs build/fof.js > build/fof.min.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shawnbot/fof.git"
+  },
+  "keywords": [
+    "function",
+    "arrow",
+    "accessor",
+    "property",
+    "dotmap"
+  ],
+  "author": "Shawn Allen <shawn.allen@gsa.gov>",
+  "license": "CC0-1.0",
+  "bugs": {
+    "url": "https://github.com/shawnbot/fof/issues"
+  },
+  "homepage": "https://github.com/shawnbot/fof#readme",
+  "devDependencies": {
+    "browserify": "^13.0.0",
+    "mocha": "^2.4.5",
+    "uglifyjs": "^2.4.10"
+  },
+  "dependencies": {
+    "dotmap": "^0.1.0"
+  }
+}
