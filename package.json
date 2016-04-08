@@ -7,9 +7,7 @@
     "test": "test"
   },
   "scripts": {
-    "test": "mocha",
-    "build": "browserify -s fof index.js > build/fof.js",
-    "minify": "uglifyjs build/fof.js > build/fof.min.js"
+    "test": "mocha"
   },
   "repository": {
     "type": "git",
