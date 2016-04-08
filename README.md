@@ -14,7 +14,7 @@ The Node module `fof` exports a single function that returns a different type of
 * If `x` is an Array, you get a mapping function that returns a new Array with values corresponding to each index, for which `fof(x[i])` is the value. This allows you to do the inverse of object mapping:
   * `fof(['x', 'y'])` returns a function that converts the `x` and `y` keys of an object into a 2-element array.
 
-Check out [the tests](test/) for more examples.
+Check out [the tests](test/spec.js) for more examples.
 
 [dotmap]: https://github.com/jden/dotmap
 [fat arrow]: https://codeplanet.io/es6-fat-arrow-functions/
