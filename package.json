@@ -1,7 +1,7 @@
 {
   "name": "fof",
   "version": "1.0.0",
-  "description": "an accessor function and fat arrow helper",
+  "description": "functional transforms, accessors, and an ES5 fat arrow translator",
   "main": "index.js",
   "directories": {
     "test": "test"
@@ -15,8 +15,9 @@
   },
   "keywords": [
     "function",
-    "arrow",
+    "transform",
     "accessor",
+    "arrow",
     "property",
     "dotmap"
   ],
