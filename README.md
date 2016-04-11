@@ -10,6 +10,7 @@ fof('foo bar')({'foo bar': 'baz'}) === 'baz'
 
 // deep property accessor, courtesy of dotmap
 fof('x.y')){x: {y: 'z'}}) === 'z'
+// you can use spaces here; '.' is the separator
 fof('foo bar.baz')({'foo bar': {baz: 'qux'}}) === 'qux'
 
 // numeric index accessor
@@ -17,7 +18,9 @@ fof(1)([true, false]) === false
 
 // fat arrow syntax
 fof('d => d.x')({x: 42}) === 42
-// note the double curly braces!
+// if, for some reason, your data has funky keys...
+fof("d => d['gobbledy\\'gook']")({"gobbledy'gook": 1}) === 1
+// note the double curly braces for return an object!
 ['a', 'b', 'c'].map(fof('(d, i) => {{data: d, index: i}}'))
 // produces: [
 //   {data: 'a', index: 0}, 
