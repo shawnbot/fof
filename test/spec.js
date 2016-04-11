@@ -1,5 +1,6 @@
 var fof = require('../');
 var assert = require('assert');
+var streamify = require('stream-array');
 
 describe('fof(String)', function() {
 
@@ -84,6 +85,58 @@ describe('fof(Array)', function() {
 
   it('maps arrays two levels deep', function() {
     assert.deepEqual(fof([false, ['x', 'y']])({x: 100, y: 200}), [false, [100, 200]]);
+  });
+
+});
+
+var testStream = function(input, x, options, output, reason) {
+  var out = [];
+  streamify(input)
+    .pipe(fof.stream(x, options))
+    .on('data', function(d) {
+      out.push(d);
+    })
+    .on('end', function() {
+      assert.deepEqual(out, output, reason);
+    });
+};
+
+describe('fof.stream(x)', function() {
+
+  it('works', function() {
+    testStream(
+      [{x: 1, y: 2}, {x: 2, y: 1}],
+      'd => [d.x, d.y]',
+      null,
+      [[1, 2], [2, 1]]
+    );
+  });
+
+});
+
+describe('fof.stream(x, {filter: true})', function() {
+
+  it('works', function() {
+    testStream(
+      [{x: 1, y: 2}, {x: 2, y: 1}],
+      'd => d.x > 1',
+      {filter: true},
+      [{x: 2, y: 1}]
+    );
+  });
+
+});
+
+
+describe('fof.stream(x, {filter: expression})', function() {
+
+  it('works', function() {
+    testStream(
+      [{x: 1, y: 2}, {x: 2, y: 1}],
+      'd => [d.x, d.y]',
+      {filter: 'd => d.x > 1'},
+      [[2, 1]]
+    );
   });
 
 });
