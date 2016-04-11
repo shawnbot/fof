@@ -1,5 +1,38 @@
 # fof
-Functional JavaScript transforms, and a handy [fat arrow] syntax translator for ES5!
+Functional JavaScript transforms, and a handy [fat arrow] syntax translator for ES5! Some examples:
+
+```js
+var fof = require('fof');
+
+// simple property accessor
+fof('x')({x: 100}) === 100
+fof('foo bar')({'foo bar': 'baz'}) === 'baz'
+
+// deep property accessor, courtesy of dotmap
+fof('x.y')){x: {y: 'z'}}) === 'z'
+fof('foo bar.baz')({'foo bar': {baz: 'qux'}}) === 'qux'
+
+// numeric index accessor
+fof(1)([true, false]) === false
+
+// fat arrow syntax
+fof('d => d.x')({x: 42}) === 42
+// note the double curly braces!
+['a', 'b', 'c'].map(fof('(d, i) => {{data: d, index: i}}'))
+// produces: [
+//   {data: 'a', index: 0}, 
+//   {data: 'b', index: 1}, 
+//   {data: 'c', index: 2}
+// ]
+
+// object maps
+fof({x: 0, y: 1})([-122, 35]) // produces {x: -122, y: 35}
+// values in object maps can be any value recognized by fof()
+fof({x: {y: 'd => d.z'}})({z: 100}) // produces: {x: {y: 100}}
+
+// array maps
+fof(['y', 'd => d.x'])({x: -100, y: 50}) // produces: [50, -100]
+```
 
 ## API
 The Node module `fof` exports a single function that returns a different type of accessor function for different types of inputs, given `fof(x)`:
