@@ -1,6 +1,6 @@
 {
   "name": "fof",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "functional transforms, accessors, and an ES5 fat arrow translator",
   "main": "index.js",
   "directories": {
