@@ -41,7 +41,7 @@ fof.stream = function(x, options) {
     ? options.filter
     : false;
 
-  var transform = fof(x);
+  var transform = x ? fof(x) : null;
   if (typeof filter !== 'boolean') {
     filter = fof(filter);
   }
@@ -51,10 +51,10 @@ fof.stream = function(x, options) {
         var filtered = filter(d);
         return filtered
           ? next()
-          : next(null, f(d));
+          : next(null, transform ? transform(d) : d);
       }
     : function(d, enc, next) {
-        var out = f(d);
+        var out = transform(d);
         return out === false
           ? next()
           : next(null, filter ? d : out);
