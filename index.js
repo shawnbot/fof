@@ -42,7 +42,7 @@ fof.stream = function(x, options) {
     : false;
 
   var transform = x ? fof(x) : null;
-  if (typeof filter !== 'boolean') {
+  if (filter && filter !== true) {
     filter = fof(filter);
   }
 
@@ -50,8 +50,8 @@ fof.stream = function(x, options) {
     ? function(d, enc, next) {
         var filtered = filter(d);
         return filtered
-          ? next()
-          : next(null, transform ? transform(d) : d);
+          ? next(null, transform ? transform(d) : d)
+          : next();
       }
     : function(d, enc, next) {
         var out = transform(d);
