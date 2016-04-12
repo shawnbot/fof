@@ -42,11 +42,15 @@ The Node module `fof` exports a single function that returns a different type
 of accessor function for different types of inputs, given `fof(x)`:
 
 * If `x` is a string and roughly matches the syntax of an [ES6 fat arrow
-  function][fat arrow], then you'll get the equivalent ES5 function (minus the
-  lexical scope). In other words:
+  function][fat arrow], then you'll get the roughly equivalent ES5 function
+  (minus the lexical scope, and a couple of other caveats). For example:
   * `fof('d => d.x')` returns an accessor for the `x` property of an object.
   * `fof('d => [+d.x, +d.y]')` returns a function that turns an object with `x`
     and `y` keys into a two-element array of coerced numbers.
+  * *Note*: our "version" of fat arrow functions have an explicit `return`
+    wrapped around the function body, so you _can_ use comma-separated
+    expressions like `d => d.x *= 100, d` to modify the object in place and
+    return it. This is not possible in native implementations.
 * If `x` is a string (and _not_ a fat arrow expression), you get a deep object
   accessor from [dotmap].
 * If `x` is a number, you get a numeric index accessor.
