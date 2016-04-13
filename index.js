@@ -37,27 +37,41 @@ var fof = function(x) {
 };
 
 fof.stream = function(x, options) {
-  var filter = (options && typeof options === 'object')
-    ? options.filter
-    : false;
+  if (!options || typeof options !== 'object') {
+    options = {};
+  }
+
+  var filter = options.filter || false;
+  var multiple = options.multiple || false;
 
   var transform = x ? fof(x) : null;
   if (filter && filter !== true) {
     filter = fof(filter);
   }
 
+  var write = function(data, next) {
+    if (multiple && Array.isArray(data)) {
+      data.forEach(function(d) {
+        this.push(d);
+      }, this);
+      next();
+    } else {
+      next(null, data);
+    }
+  };
+
   var thru = (typeof filter === 'function')
     ? function(d, enc, next) {
         var filtered = filter(d);
         return filtered
-          ? next(null, transform ? transform(d) : d)
+          ? write.call(this, transform ? transform(d) : d, next)
           : next();
       }
     : function(d, enc, next) {
         var out = transform(d);
         return out === false
           ? next()
-          : next(null, filter ? d : out);
+          : write.call(this, filter ? d : out, next);
       };
   return through2.obj(thru);
 };
