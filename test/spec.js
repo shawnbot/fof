@@ -140,3 +140,31 @@ describe('fof.stream(x, {filter: expression})', function() {
   });
 
 });
+
+describe('fof.stream(x, {multiple: true})', function() {
+
+  var years = [2001, 2002, 2003];
+  it('works', function() {
+    testStream(
+      [
+        {2001: 1, 2002: 2, 2003: 3},
+        {2001: 2, 2002: 1, 2003: 0}
+      ],
+      function(d) {
+        return years.map(function(y) {
+          return {year: y, data: d};
+        });
+      },
+      {multiple: true},
+      [
+        {year: 2001, data: 1},
+        {year: 2002, data: 2},
+        {year: 2003, data: 3},
+        {year: 2001, data: 2},
+        {year: 2002, data: 1},
+        {year: 2003, data: 0}
+      ]
+    );
+  });
+
+});
